@@ -20,7 +20,7 @@
 20            // get the kth node
 21            ListNode kth = getKthNode(prevGroup, k);
 22
-23            // if there are no k elements return 
+23            // if there are no k elements break 
 24            if (kth == null)
 25                break;
 26            
@@ -37,20 +37,22 @@
 37                cuu = temp;
 38            }
 39
-40            // 
+40        
 41            ListNode temp = prevGroup.next;
-42            prevGroup.next = kth;
-43            prevGroup = temp;
-44        }
-45        return dummy.next;
-46    }
-47
-48    private ListNode getKthNode(ListNode curr, int k) {
-49        while (curr != null && k > 0) {
-50            curr = curr.next;
-51            k--;
-52        }
-53
-54        return curr;
-55    }
-56}
+42            // change the prevGroup.next pointer to kth node, since reversed this becomes the head
+43            prevGroup.next = kth;
+44            // change prevGroup pointer to get the right node because it becomes the prev node of the next group
+45            prevGroup = temp;
+46        }
+47        return dummy.next;
+48    }
+49
+50    private ListNode getKthNode(ListNode curr, int k) {
+51        while (curr != null && k > 0) {
+52            curr = curr.next;
+53            k--;
+54        }
+55
+56        return curr;
+57    }
+58}
