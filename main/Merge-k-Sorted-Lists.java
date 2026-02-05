@@ -10,41 +10,26 @@
 10 */
 11class Solution {
 12    public ListNode mergeKLists(ListNode[] lists) {
-13        int n = lists.length;
+13        PriorityQueue<ListNode> pq = new PriorityQueue<ListNode>((a,b) -> a.val - b.val);
 14
-15        if (n == 0)
-16            return null;
-17
-18        if (n == 1)
-19            return lists[0];
-20
-21        for (int i = 1; i < n; i++) {                
-22            lists[i] = mergeTwoLists(lists[i], lists[i - 1]);
-23        }
-24
-25        return lists[n - 1];
-26    }
+15        for(ListNode l : lists) {
+16            if (l!=null)
+17                pq.offer(l);
+18        }
+19
+20        ListNode dummy = new ListNode();
+21        ListNode curr = dummy;
+22
+23        while (pq.size() != 0) {
+24            ListNode temp = pq.remove();
+25            curr.next = temp;
+26            curr = curr.next;
 27
-28    private ListNode mergeTwoLists(ListNode one, ListNode two) {
-29        ListNode r = new ListNode(0);
-30        ListNode dummy = r;
-31
-32        while (one != null && two != null) {
-33            if (one.val <= two.val) {
-34                dummy.next = one;
-35                one = one.next;
-36            } else {
-37                dummy.next = two;
-38                two = two.next;
-39            }
-40            dummy = dummy.next;
-41        }
-42
-43        if (one != null)
-44            dummy.next = one;
-45        else 
-46            dummy.next = two;
-47
-48        return r.next;
-49    }
-50}
+28            temp = temp.next;
+29            if (temp != null)
+30                pq.offer(temp);
+31        }
+32
+33        return dummy.next;
+34    }
+35}
