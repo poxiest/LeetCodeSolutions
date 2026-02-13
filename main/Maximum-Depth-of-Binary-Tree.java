@@ -15,20 +15,25 @@
 15 */
 16class Solution {
 17    public int maxDepth(TreeNode root) {
-18        // BFS approach 
-19        Queue<TreeNode> q = new LinkedList<>();
-20        if (root != null) q.offer(root);
-21        int level = 0;
+18        // DFS approach 
+19
+20        Stack<Pair<TreeNode, Integer>> s = new Stack<>();
+21        s.push(new Pair<>(root, 1));
 22
-23        while(!q.isEmpty()) {
-24            int s = q.size();
-25            for(int i = 0 ; i < s ; i++) {
-26                TreeNode tmp = q.poll();
-27                if (tmp.left != null) q.offer(tmp.left);
-28                if (tmp.right != null) q.offer(tmp.right);
-29            }
-30            level++;
-31        }
-32        return level;
-33    }
-34}
+23        int res = 0;
+24
+25        while(!s.isEmpty()) {
+26            Pair<TreeNode, Integer> temp = s.pop();
+27            TreeNode node = temp.getKey();
+28            int depth = temp.getValue();
+29
+30            if (node != null) {
+31                res = Math.max(res, depth);
+32                s.push(new Pair<>(node.right, depth+1));
+33                s.push(new Pair<>(node.left, depth+1));
+34            }
+35        }
+36
+37        return res;
+38    }
+39}
